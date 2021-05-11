@@ -37,6 +37,7 @@ public class PersonMapper {
 
         return PersonDto
                 .builder()
+                .id(person.getId())
                 .name(person.getName())
                 .birth(person.getBirth())
                 .phones(phoneList)
