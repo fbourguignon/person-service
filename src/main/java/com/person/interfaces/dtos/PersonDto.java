@@ -1,5 +1,6 @@
 package com.person.interfaces.dtos;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,6 +20,7 @@ import java.util.UUID;
 public class PersonDto {
     private UUID id;
     private String name;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", locale = "pt_BR")
     private Date birth;
     @Builder.Default
     private List<PhoneDto> phones = new ArrayList<>();
