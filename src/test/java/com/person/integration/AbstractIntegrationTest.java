@@ -1,7 +1,9 @@
 package com.person.integration;
 
 import io.restassured.specification.RequestSpecification;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -20,17 +22,21 @@ import static io.restassured.http.ContentType.JSON;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ContextConfiguration(initializers = AbstractIntegrationTest.DockerPostgreDataSourceInitializer.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Testcontainers
 public class AbstractIntegrationTest {
+
+    private static final String IMAGE_VERSION = "postgres:11.1";
 
     @LocalServerPort
     private Integer port;
 
-    public static PostgreSQLContainer<?> postgreDBContainer = new PostgreSQLContainer<>("postgres:9.6");
+    static final PostgreSQLContainer postgreSQLContainer;
 
-    @BeforeAll
-    public static void before(){
-        postgreDBContainer.start();
+    static {
+        postgreSQLContainer = new PostgreSQLContainer(IMAGE_VERSION);
+        postgreSQLContainer.start();
     }
 
     protected RequestSpecification request() {
@@ -42,12 +48,11 @@ public class AbstractIntegrationTest {
     public static class DockerPostgreDataSourceInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
         @Override
         public void initialize(ConfigurableApplicationContext applicationContext) {
-
             TestPropertySourceUtils.addInlinedPropertiesToEnvironment(
                     applicationContext,
-                    "spring.datasource.url=" + postgreDBContainer.getJdbcUrl(),
-                    "spring.datasource.username=" + postgreDBContainer.getUsername(),
-                    "spring.datasource.password=" + postgreDBContainer.getPassword()
+                    "spring.datasource.url=" + postgreSQLContainer.getJdbcUrl(),
+                    "spring.datasource.username=" + postgreSQLContainer.getUsername(),
+                    "spring.datasource.password=" + postgreSQLContainer.getPassword()
             );
         }
     }
