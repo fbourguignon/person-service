@@ -35,7 +35,10 @@ public class AbstractIntegrationTest {
     static final PostgreSQLContainer postgreSQLContainer;
 
     static {
-        postgreSQLContainer = new PostgreSQLContainer(IMAGE_VERSION);
+        postgreSQLContainer = new PostgreSQLContainer(IMAGE_VERSION)
+                .withDatabaseName("persondb")
+                .withUsername("postgres")
+                .withPassword("123456");
         postgreSQLContainer.start();
     }
 
@@ -54,6 +57,8 @@ public class AbstractIntegrationTest {
                     "spring.datasource.username=" + postgreSQLContainer.getUsername(),
                     "spring.datasource.password=" + postgreSQLContainer.getPassword()
             );
+
+            System.out.println(postgreSQLContainer.getJdbcUrl());
         }
     }
 }
