@@ -5,8 +5,8 @@ import com.person.application.payload.phone.PhoneRequest;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Builder
@@ -14,7 +14,7 @@ import java.util.List;
 public class PersonRequest {
     private String name;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", locale = "pt_BR")
-    private Date birth;
+    private LocalDate birth;
     @Builder.Default
     private List<PhoneRequest> phones = new ArrayList<>();
 }

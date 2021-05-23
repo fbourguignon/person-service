@@ -58,11 +58,11 @@ public class PersonController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(@PathVariable UUID id){
+    public ResponseEntity<Void> delete(@PathVariable UUID id){
 
         service.delete(id);
 
-        return new ResponseEntity(ResponseDto.builder().message("Pessoa removida com sucesso"), HttpStatus.NO_CONTENT);
+        return new ResponseEntity<Void>( HttpStatus.NO_CONTENT );
     }
 }
 

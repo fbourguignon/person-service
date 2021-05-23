@@ -7,8 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,7 +21,7 @@ public class PersonDto {
     private UUID id;
     private String name;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", locale = "pt_BR")
-    private Date birth;
+    private LocalDate birth;
     @Builder.Default
     private List<PhoneDto> phones = new ArrayList<>();
 }
