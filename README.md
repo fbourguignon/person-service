@@ -19,7 +19,7 @@ In most cases, when you work with JSON in PostgreSQL, you should be using JSONB.
 From project directory, start up the application by running.
 
 ```console
-docker-compose up -
+docker-compose up -d
 ```
 Compose pulls and build the images from project, and starts the services.
 
